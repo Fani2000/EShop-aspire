@@ -1,6 +1,41 @@
 @Catelog_HostAddress = http://localhost:5053
 
-GET {{Catelog_HostAddress}}/weatherforecast/
+GET {{Catelog_HostAddress}}/api/products
 Accept: application/json
 
 ###
+
+
+GET {{Catelog_HostAddress}}/api/products/2
+Accept: application/json
+
+### 
+
+POST {{Catelog_HostAddress}}/api/products
+Content-Type: application/json
+{
+  "id": 10,
+  "name": "New Swn Flashlight",
+  "description": "A new swn product for outdoor enthusiasts",
+  "price": 59.99,
+  "imageUrl": "product10.png"
+}
+
+### 
+
+PUT {{Catelog_HostAddress}}/api/products/10
+Content-Type: application/json
+{
+  "id": 10,
+  "name": "New Swn Flashlight!!!",
+  "description": "A new swn product for outdoor enthusiasts",
+  "price": 29.99,
+  "imageUrl": "product10.png"
+}
+
+### 
+
+DELETE {{Catelog_HostAddress}}/api/products/10
+Accept: application/json
+
+### 
