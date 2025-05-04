@@ -1,6 +1,9 @@
-﻿namespace Catelog.Services;
+﻿using MassTransit;
+using ServiceDefault.Messaging.Events;
 
-public class ProductService(ProductDbContext dbContext)
+namespace Catelog.Services;
+
+public class ProductService(ProductDbContext dbContext, IBus bus)
 {
     public async Task<IEnumerable<Product>> GetProductsAsync()
     {
@@ -20,6 +23,21 @@ public class ProductService(ProductDbContext dbContext)
 
     public async Task UpdateProductAsync(Product updatedProduct, Product inputProduct)
     {
+        if (updatedProduct.Price != inputProduct.Price) 
+        {
+            // TODO: publish the integration event
+            var integrationEvent = new ProductPriceChangedIntegrationEvent
+            {
+                ProductId = updatedProduct.Id,
+                Name = inputProduct.Name,
+                Price = inputProduct.Price,
+                ImageUrl = inputProduct.ImageUrl,
+                Description = inputProduct.Description,
+            };
+
+            await bus.Publish(integrationEvent);
+        }
+
         // update product with new values
         updatedProduct.Name = inputProduct.Name;
         updatedProduct.Description = inputProduct.Description;

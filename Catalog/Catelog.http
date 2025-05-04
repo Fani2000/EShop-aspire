@@ -23,17 +23,18 @@ Content-Type: application/json
 
 ### 
 
-PUT {{Catelog_HostAddress}}/api/products/10
+PUT {{Catelog_HostAddress}}/api/products/1
 Content-Type: application/json
 {
-  "id": 10,
-  "name": "New Swn Flashlight!!!",
+  "id": 1,
+  "name": "New Swn Flashlight",
   "description": "A new swn product for outdoor enthusiasts",
-  "price": 29.99,
-  "imageUrl": "product10.png"
+  "price": 15.99,
+  "imageUrl": "product1.png"
 }
 
 ### 
+
 
 DELETE {{Catelog_HostAddress}}/api/products/10
 Accept: application/json
