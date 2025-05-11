@@ -1,12 +1,16 @@
-@Basket_HostAddress = http://localhost:5175/api/basket
+@Basket_HostAddress = https://localhost:7074/api/basket
+@accessToken =eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJrYy0yc0p6bmI4d3ZIR3dtajJWSnhiel9yWEtNRTdEM3dVQjBLZ09yTlh3In0.eyJleHAiOjE3NDY5MzI2NjcsImlhdCI6MTc0NjkzMjM2NywianRpIjoiMzU4OGVhYzQtYTMzOS00NzIwLWEwZTQtODYyOWFmYTE0MTEwIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwL3JlYWxtcy9lc2hvcCIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiJhOWQxNTIxOC04ZjY3LTQ0MGItODZhZC0zMTcyNzBmZTAyNWYiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJlc2hvcC1jbGllbnQiLCJzaWQiOiIxMDZlODA4My0zMGMzLTQyZmYtODNlMC0yMGM1ZTI5ZjJjOWYiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbIi8qIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIiwiZGVmYXVsdC1yb2xlcy1lc2hvcCJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwibmFtZSI6IkZhbmkgVGVzdCIsInByZWZlcnJlZF91c2VybmFtZSI6ImZhbmkiLCJnaXZlbl9uYW1lIjoiRmFuaSIsImZhbWlseV9uYW1lIjoiVGVzdCIsImVtYWlsIjoiZmFuaUB0ZXN0LmNvbSJ9.gxTGyEjqY9zcVThVzInqBsDV41NUGKUZks5zL9pUjUrDAgeQVRtqEgHOizytxx13FxDXb3rYO1qKoeZcebX0LOaMzO4Z-qL7GhbF-TXJHaMCj9dJw-vhFom7DEjR68pHmajTj5JXzicnnzRVHgn6KLjTigoECm8XxHAE8RGrxdsZXxIYaQz-07OgleCVG_qPAe38sGpqk6ur_DLLo26OsqUgaPJVjfp8AFYu5MiXlLI1NWdnviFPbpV5vM51UGxAyVHYk2stS_hDKDFk_RSwoMBquVA67IBngq7KSpYzQwB9dJZUbwN_Zl8_k6nvz1JMOh5cdogESfTIFV52qOZPrw
+
 
 GET {{Basket_HostAddress}}/swn
 Accept: application/json
+Authorization: Bearer {{accessToken}}
 
 ###
 
 POST {{Basket_HostAddress}}/
 Content-Type: application/json
+Authorization: Bearer {{accessToken}}
 
 {
   "UserName": "swn",
@@ -32,5 +36,12 @@ Content-Type: application/json
 
 DELETE {{Basket_HostAddress}}/swn
 Content-Type: application/json
+Authorization: Bearer {{accessToken}}
 
+###
+
+POST http://localhost:8080/realms/eshop/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=password&client_id=eshop-client&scope=email openid&username=fani&password=admin
 ###
