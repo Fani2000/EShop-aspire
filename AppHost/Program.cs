@@ -1,34 +1,46 @@
-using Microsoft.AspNetCore.DataProtection.KeyManagement.Internal;
-
 var builder = DistributedApplication.CreateBuilder(args);
 
 // Backing Services 
 var postgres = builder.AddPostgres("postgres")
                .WithPgAdmin()
-               .WithDataVolume()
                .WithLifetime(ContainerLifetime.Session);
 
 var catalogDb = postgres.AddDatabase("catalogdb");
 
 var cache = builder.AddRedis("cache")
                     .WithRedisInsight()
-                    .WithDataVolume()
                     .WithLifetime(ContainerLifetime.Session);
 
 var rabbitMq = builder.AddRabbitMQ("rabbitmq")
                        .WithManagementPlugin()
-                       .WithDataVolume()
                        .WithLifetime(ContainerLifetime.Session);
 
 var keycloak = builder.AddKeycloak("keycloak", 8080)
-               .WithDataVolume()
                .WithLifetime(ContainerLifetime.Persistent);
+
+// Adding the ollama and model llma3.2
+var ollama = builder.AddOllama("ollama", 11434)
+    .WithLifetime(ContainerLifetime.Persistent)
+    .WithOpenWebUI()
+    .WithDataVolume()
+    .AddModel("llama3.2");
+
+if(builder.ExecutionContext.IsRunMode)
+{
+    postgres.WithDataVolume();
+    keycloak.WithDataVolume();
+    cache.WithDataVolume();
+    rabbitMq.WithDataVolume();
+}
+
 
 // Projects
 var catalog = builder.AddProject<Projects.Catalog>("catalog")
                      .WithReference(rabbitMq)
                      .WithReference(catalogDb)
+                     .WithReference(ollama)
                      .WaitFor(rabbitMq)
+                     .WaitFor(ollama)
                      .WaitFor(catalogDb);
 
 var basket = builder.AddProject<Projects.Basket>("basket")
