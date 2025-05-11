@@ -40,4 +40,22 @@ var basket = builder.AddProject<Projects.Basket>("basket")
                      .WaitFor(keycloak)
                      .WaitFor(cache);
 
+var vueWebApp = builder.AddNpmApp("vuewebapp", "../vuewebapp")
+                       .WithEnvironment("BROWSER", "none")
+                       .WithHttpEndpoint(env: "VITE_PORT")
+                       .WithExternalHttpEndpoints()
+                       .PublishAsDockerFile()
+                       .WithReference(catalog)
+                       .WaitFor(catalog);
+
+var webapp = builder.AddProject<Projects.WebApp>("webapp")
+                    .WithExternalHttpEndpoints()
+                    .WithReference(cache)
+                    .WithReference(catalog)
+                    .WithReference(basket)
+                    .WaitFor(catalog)
+                    .WaitFor(cache)
+                    .WaitFor(basket);
+
+
 builder.Build().Run();
