@@ -9,6 +9,9 @@ builder.AddServiceDefaults();
 // Add services to the container.
 builder.AddNpgsqlDbContext<ProductDbContext>(connectionName: "catalogdb");
 builder.Services.AddScoped<ProductService>();
+builder.Services.AddScoped<ProductAIService>();
+
+builder.AddOllamaSharpChatClient("ollama-llama3-2");
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

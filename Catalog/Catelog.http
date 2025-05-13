@@ -40,3 +40,8 @@ DELETE {{Catelog_HostAddress}}/api/products/10
 Accept: application/json
 
 ### 
+
+GET {{Catelog_HostAddress}}/api/products/support/give-me-1-outdoor-activity
+Content-Type: application/json
+
+### 
